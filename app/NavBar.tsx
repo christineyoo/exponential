@@ -24,8 +24,9 @@ const NavBar = () => {
       <ul className="flex space-x-6">
         {links.map((link) => (
           <li
+            key={link.href}
             className={classnames({
-              "text-pink-900": link.href === pathname,
+              "text-pink-900 font-semibold": link.href === pathname,
               "text-pink-500": link.href !== pathname,
               "hover:text-pink-800 transition-colors": true,
             })}
