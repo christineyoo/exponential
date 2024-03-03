@@ -2,7 +2,7 @@
 import { Skeleton } from "@/app/components";
 import { Issue, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -19,6 +19,20 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     retry: 3,
   });
 
+  const assignIssue = useMutation({
+    mutationFn: async (userId: string) => {
+      await axios.patch(`/api/issues/${issue.id}`, {
+        assignedToUserId: userId !== "none" ? userId : null,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Issue assigned successfully.");
+    },
+    onError: () => {
+      toast.error("Oops! Failed to update issue.");
+    },
+  });
+
   if (isLoading) return <Skeleton />;
 
   if (error) return null;
@@ -26,16 +40,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
   return (
     <>
       <Select.Root
-        onValueChange={async (userId) => {
-          try {
-            await axios.patch(`/api/issues/${issue.id}`, {
-              assignedToUserId: userId !== "none" ? userId : null,
-            });
-            toast.success("Issue assigned successfully.");
-          } catch (err) {
-            toast.error("Oops! Failed to update issue.");
-          }
-        }}
+        onValueChange={(userId) => assignIssue.mutate(userId)}
         defaultValue={issue.assignedToUserId || ""}
       >
         <Select.Trigger placeholder="Assign..."></Select.Trigger>
