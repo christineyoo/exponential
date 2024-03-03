@@ -12,7 +12,7 @@ const statusMap: Record<
 > = {
   OPEN: { label: "Open", color: "red" },
   IN_PROGRESS: { label: "In Progress", color: "violet" },
-  CLOSED: { label: "Done", color: "green" },
+  CLOSED: { label: "Closed", color: "green" },
 };
 
 const IssueStatusBadge = ({ status }: Props) => {
