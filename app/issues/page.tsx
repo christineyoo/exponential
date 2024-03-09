@@ -36,6 +36,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
     <Flex direction="column" gap="3">
       <IssueActions />
       <IssueTable searchParams={searchParams} issues={issues} />
+
       <Pagination
         itemCount={issueCount}
         pageSize={pageSize}
