@@ -11,15 +11,18 @@ interface Props {
 
 const IssueSummary = ({ open, inProgress, closed }: Props) => {
   const containers: { label: string; value: number; status: Status }[] = [
-    { label: "Open", value: open, status: "OPEN" },
-    { label: "In Progress", value: inProgress, status: "IN_PROGRESS" },
-    { label: "Closed", value: closed, status: "CLOSED" },
+    { label: "Open Issues", value: open, status: "OPEN" },
+    { label: "In Progress Issues", value: inProgress, status: "IN_PROGRESS" },
+    { label: "Closed Issues", value: closed, status: "CLOSED" },
   ];
 
   return (
     <Flex gap="4">
       {containers.map((container) => (
-        <Card key={container.status}>
+        <Card
+          key={container.status}
+          className="w-full hover:border-pink-100 hover:bg-pink-50"
+        >
           <Link
             href={`/issues?status=${container.status}`}
             className="text-sm font-bold flex flex-col gap-y-1"
